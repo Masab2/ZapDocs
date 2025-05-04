@@ -10,6 +10,14 @@ class Routes {
         return MaterialPageRoute(
           builder: (context) => const SplashView(),
         );
+      case RouteNames.loginView:
+        return MaterialPageRoute(
+          builder: (context) => const LoginView(),
+        );
+      case RouteNames.homeView:
+        return MaterialPageRoute(
+          builder: (context) => const HomeView(),
+        );
 
       default:
         return MaterialPageRoute(

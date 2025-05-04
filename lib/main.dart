@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zapdocs/Config/Color/app_color.dart';
 import 'package:zapdocs/Config/Routes/route_name.dart';
 
 import 'Config/Routes/routes.dart';
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'ZapDocs',
       theme: ThemeData(
+        scaffoldBackgroundColor: AppColor.white,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),

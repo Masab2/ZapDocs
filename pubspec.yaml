@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   icons_launcher: ^3.0.1
   package_rename: ^1.10.0
+  dotted_border: ^2.1.0
 icons_launcher:
   image_path: "assets/images/zapdocslogo.png"
   platforms:

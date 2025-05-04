@@ -3,6 +3,7 @@ import 'package:zapdocs/Config/Color/app_color.dart';
 import 'dart:async';
 
 import 'package:zapdocs/Config/Extenshion/extenshion.dart';
+import 'package:zapdocs/Config/Routes/route_name.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -11,7 +12,8 @@ class SplashView extends StatefulWidget {
   State<SplashView> createState() => _SplashViewState();
 }
 
-class _SplashViewState extends State<SplashView> with SingleTickerProviderStateMixin {
+class _SplashViewState extends State<SplashView>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
   late Animation<double> _scaleAnimation;
@@ -19,13 +21,13 @@ class _SplashViewState extends State<SplashView> with SingleTickerProviderStateM
   @override
   void initState() {
     super.initState();
-    
+
     // Initialize animation controller
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1500),
     );
-    
+
     // Create fade-in animation
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
@@ -33,7 +35,7 @@ class _SplashViewState extends State<SplashView> with SingleTickerProviderStateM
         curve: const Interval(0.0, 0.7, curve: Curves.easeInOut),
       ),
     );
-    
+
     // Create scale animation
     _scaleAnimation = Tween<double>(begin: 0.8, end: 1.0).animate(
       CurvedAnimation(
@@ -41,16 +43,14 @@ class _SplashViewState extends State<SplashView> with SingleTickerProviderStateM
         curve: const Interval(0.0, 0.8, curve: Curves.easeInOut),
       ),
     );
-    
+
     // Start animation
     _animationController.forward();
-    
+
     // Navigate to home screen after delay
     Timer(
       const Duration(seconds: 3),
-      () => {
-        // Navigation logic will go here
-      }
+      () => Navigator.pushNamed(context, RouteNames.loginView),
     );
   }
 
@@ -114,7 +114,6 @@ class _SplashViewState extends State<SplashView> with SingleTickerProviderStateM
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                               ),
-                              // Three lines representing text
                               Positioned(
                                 top: context.mh * 0.05,
                                 child: Column(
@@ -123,7 +122,7 @@ class _SplashViewState extends State<SplashView> with SingleTickerProviderStateM
                                       width: 60,
                                       height: 8,
                                       decoration: BoxDecoration(
-                                        color: AppColor.primaryColor, // Dark purple for document lines
+                                        color: AppColor.primaryColor,
                                         borderRadius: BorderRadius.circular(4),
                                       ),
                                     ),
@@ -148,7 +147,6 @@ class _SplashViewState extends State<SplashView> with SingleTickerProviderStateM
                                   ],
                                 ),
                               ),
-                              // Lightning bolt icon
                               Positioned(
                                 top: 15,
                                 left: 20,
@@ -163,7 +161,6 @@ class _SplashViewState extends State<SplashView> with SingleTickerProviderStateM
                         ),
                       ),
                       0.03.ph(context),
-                      // App name with custom styling
                       Text(
                         'ZapDocs',
                         style: TextStyle(
@@ -174,7 +171,6 @@ class _SplashViewState extends State<SplashView> with SingleTickerProviderStateM
                         ),
                       ),
                       0.01.ph(context),
-                      // Tagline
                       Text(
                         'Instant Document Summaries',
                         style: TextStyle(
@@ -190,7 +186,8 @@ class _SplashViewState extends State<SplashView> with SingleTickerProviderStateM
                         width: context.mw * 0.05,
                         height: context.mw * 0.05,
                         child: CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(AppColor.white),
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(AppColor.white),
                           strokeWidth: 3,
                         ),
                       ),
