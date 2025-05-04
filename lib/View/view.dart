@@ -1,0 +1,1 @@
+export './SplashView/splash_view.dart';
