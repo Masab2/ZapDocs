@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:zapdocs/Config/Color/app_color.dart';
+import 'package:zapdocs/Config/Components/RoundBtn/round_btn.dart';
 import 'package:zapdocs/Config/Extenshion/extenshion.dart';
 import 'package:zapdocs/Config/Widgets/widgets.dart';
+import 'package:zapdocs/ViewModel/FilePickerViewModel/file_picker_viewModel.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -76,7 +79,7 @@ class _HomeViewState extends State<HomeView> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding:  EdgeInsets.symmetric(horizontal: context.mw * 0.03),
+          padding: EdgeInsets.symmetric(horizontal: context.mw * 0.03),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -90,6 +93,22 @@ class _HomeViewState extends State<HomeView> {
           ),
         ),
       ),
+      bottomNavigationBar:
+          Consumer<FilePickerViewmodel>(builder: (context, watch, child) {
+        return Visibility(
+          visible: watch.selectedFile.isEmpty ? false : true,
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: context.mw * 0.02,
+              vertical: context.mh * 0.01,
+            ),
+            child: RoundBtn(
+              title: "Generate Notes",
+              onPressed: () {},
+            ),
+          ),
+        );
+      }),
       floatingActionButton: InkWell(
         onTap: () {},
         child: Container(
