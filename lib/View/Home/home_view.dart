@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zapdocs/Config/Color/app_color.dart';
 import 'package:zapdocs/Config/Extenshion/extenshion.dart';
-import '../../Config/Widgets/widgets.dart';
+import 'package:zapdocs/Config/Widgets/widgets.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -47,6 +47,7 @@ class _HomeViewState extends State<HomeView> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         elevation: 0,
         backgroundColor: Colors.white,
         title: Text(
