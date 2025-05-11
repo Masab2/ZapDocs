@@ -4,7 +4,7 @@ import 'package:zapdocs/View/view.dart';
 
 class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
-    // final args = settings.arguments;
+    final args = settings.arguments;
     switch (settings.name) {
       case RouteNames.splashView:
         return MaterialPageRoute(
@@ -21,6 +21,24 @@ class Routes {
       case RouteNames.homeView:
         return MaterialPageRoute(
           builder: (context) => const HomeView(),
+        );
+      case RouteNames.checkEmailView:
+        return MaterialPageRoute(
+          builder: (context) => const CheckEmailView(),
+        );
+      case RouteNames.verifyPinView:
+        return MaterialPageRoute(
+          builder: (context) => VerifyPinView(email: args as String),
+        );
+      case RouteNames.updatePasswordView:
+        final Map<String, dynamic> arguments = args as Map<String, dynamic>;
+        final email = arguments['email'] as String;
+        final pin = arguments['pin'] as String;
+        return MaterialPageRoute(
+          builder: (context) => UpdatePasswordView(
+            pin: pin,
+            email: email,
+          ),
         );
       default:
         return MaterialPageRoute(

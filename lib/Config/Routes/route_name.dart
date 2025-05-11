@@ -3,4 +3,7 @@ class RouteNames {
   static const String loginView = '/loginView';
   static const String homeView = '/homeView';
   static const String registerView = '/registerView';
+  static const String checkEmailView = '/checkEmailView';
+  static const String verifyPinView = '/verifyPinView';
+  static const String updatePasswordView = '/updatePasswordView';
 }

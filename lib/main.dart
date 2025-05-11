@@ -6,7 +6,7 @@ import 'package:zapdocs/ViewModel/AuthViewModel/auth_viewModel.dart';
 import 'package:zapdocs/ViewModel/FilePickerViewModel/file_picker_viewModel.dart';
 import 'Config/Routes/routes.dart';
 
-void main() { 
+void main() {
   runApp(const MyApp());
 }
 
@@ -24,6 +24,9 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'ZapDocs',
         theme: ThemeData(
+          appBarTheme: AppBarTheme(
+            backgroundColor: AppColor.white,
+          ),
           scaffoldBackgroundColor: AppColor.white,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,

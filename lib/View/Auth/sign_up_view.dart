@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zapdocs/Config/Color/app_color.dart';
+import 'package:zapdocs/Config/Components/AuthHeaderComp/auth_header_comp.dart';
 import 'package:zapdocs/Config/Components/AuthfeildsComp/auth_feild_comp.dart';
 import 'package:zapdocs/Config/Components/RoundBtn/round_btn.dart';
 import 'package:zapdocs/Config/Extenshion/extenshion.dart';
@@ -47,44 +48,7 @@ class _SignUpViewState extends State<SignUpView> {
                 0.08.ph(context),
 
                 // App Logo
-                Center(
-                  child: Container(
-                    width: context.mw * 0.15,
-                    height: context.mw * 0.15,
-                    decoration: BoxDecoration(
-                      color: AppColor.white,
-                      borderRadius: BorderRadius.circular(18),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColor.primaryText.withOpacity(0.08),
-                          blurRadius: 10,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                    child: Center(
-                      child: Icon(
-                        Icons.bolt,
-                        size: 32,
-                        color: AppColor.mediumPurple,
-                      ),
-                    ),
-                  ),
-                ),
-
-                0.04.ph(context),
-
-                // Welcome Text
-                Center(
-                  child: Text(
-                    'Welcome to ZapDocs',
-                    style: TextStyle(
-                      fontSize: context.mh * 0.025,
-                      fontWeight: FontWeight.bold,
-                      color: AppColor.primaryColor,
-                    ),
-                  ),
-                ),
+                AuthHeaderComp(title: "Create an Account"),
 
                 0.01.ph(context),
 
