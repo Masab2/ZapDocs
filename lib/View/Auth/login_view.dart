@@ -87,6 +87,16 @@ class _LoginViewState extends State<LoginView> {
                         focusNode: _emailFocusNode,
                         hintText: 'Enter your email',
                         prefixIcon: Icons.email_outlined,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your email';
+                          } else if (!RegExp(
+                                  r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                              .hasMatch(value)) {
+                            return 'Please enter a valid email';
+                          }
+                          return null;
+                        },
                       ),
                       0.025.ph(context),
 
@@ -123,6 +133,14 @@ class _LoginViewState extends State<LoginView> {
                                       Icons.visibility,
                                     ),
                             ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your password';
+                              } else if (value.length < 6) {
+                                return 'Password must be at least 6 characters';
+                              }
+                              return null;
+                            },
                           );
                         },
                       ),
@@ -133,7 +151,8 @@ class _LoginViewState extends State<LoginView> {
                         alignment: Alignment.centerRight,
                         child: TextButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, RouteNames.checkEmailView);
+                            Navigator.pushNamed(
+                                context, RouteNames.checkEmailView);
                           },
                           style: TextButton.styleFrom(
                             minimumSize: Size.zero,
@@ -156,18 +175,21 @@ class _LoginViewState extends State<LoginView> {
                 ),
                 0.04.ph(context),
                 // Login Button
-                RoundBtn(
-                  title: "Sign In",
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      authProvider.loginApi(
-                        _emailController,
-                        _passwordController,
-                        context,
-                      );
-                    }
-                  },
-                ),
+                Consumer<AuthViewmodel>(builder: (context, auth, child) {
+                  return RoundBtn(
+                    isLoading: auth.isLoading,
+                    title: "Sign In",
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        authProvider.loginApi(
+                          _emailController,
+                          _passwordController,
+                          context,
+                        );
+                      }
+                    },
+                  );
+                }),
                 0.04.ph(context),
                 // Sign Up
                 Row(

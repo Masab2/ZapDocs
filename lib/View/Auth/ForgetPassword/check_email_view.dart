@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:zapdocs/Config/Components/AuthHeaderComp/auth_header_comp.dart';
 import 'package:zapdocs/Config/Components/AuthfeildsComp/auth_feild_comp.dart';
 import 'package:zapdocs/Config/Components/RoundBtn/round_btn.dart';
 import 'package:zapdocs/Config/Extenshion/extenshion.dart';
 import 'package:zapdocs/Config/Routes/route_name.dart';
+import 'package:zapdocs/ViewModel/AuthViewModel/auth_viewModel.dart';
 
 class CheckEmailView extends StatefulWidget {
   const CheckEmailView({super.key});
@@ -32,10 +34,8 @@ class _CheckEmailViewState extends State<CheckEmailView> {
           padding: EdgeInsets.symmetric(horizontal: context.mw * 0.05),
           child: SingleChildScrollView(
             child: Column(
-             
               children: [
                 AuthHeaderComp(title: "Check Your Email"),
-
                 0.01.ph(context),
                 AuthFieldComp(
                     controller: _emailController,
@@ -43,12 +43,17 @@ class _CheckEmailViewState extends State<CheckEmailView> {
                     hintText: "Enter your email",
                     prefixIcon: Icons.email_outlined),
                 0.03.ph(context),
-                RoundBtn(
-                  title: "Send Code",
-                  onPressed: () {
-                    Navigator.pushNamed(context, RouteNames.verifyPinView, arguments: _emailController.text);
-                  },
-                )
+                Consumer<AuthViewmodel>(builder: (context, model, child) {
+                  return RoundBtn(
+                    isLoading: model.isforgetLoading,
+                    title: "Send Code",
+                    onPressed: () {
+                      if (_emailController.text.isNotEmpty) {
+                        model.forgetPasswordApi(_emailController, context);
+                      }
+                    },
+                  );
+                })
               ],
             ),
           ),

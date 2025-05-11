@@ -8,6 +8,7 @@ class RoundBtn extends StatelessWidget {
   final IconData? icon;
   final Color? backgroundColor;
   final Color? textColor;
+  final bool? isLoading;
 
   const RoundBtn({
     super.key,
@@ -16,6 +17,7 @@ class RoundBtn extends StatelessWidget {
     this.icon,
     this.backgroundColor,
     this.textColor,
+    this.isLoading,
   });
 
   @override
@@ -49,14 +51,23 @@ class RoundBtn extends StatelessWidget {
                   ),
                 ],
               )
-            : Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.5,
-                ),
-              ),
+            : isLoading == true
+                ? SizedBox(
+                    width: context.mw * 0.05,
+                    height: context.mw * 0.05,
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(AppColor.white),
+                      strokeWidth: 3,
+                    ),
+                  )
+                : Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
       ),
     );
   }

@@ -117,7 +117,9 @@ class _SignUpViewState extends State<SignUpView> {
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your email';
-                          } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+                          } else if (!RegExp(
+                                  r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                              .hasMatch(value)) {
                             return 'Please enter a valid email';
                           }
                           return null;
@@ -174,24 +176,26 @@ class _SignUpViewState extends State<SignUpView> {
                 ),
                 0.04.ph(context),
                 // Login Button
-                RoundBtn(
-                  
-                  title: "Sign up",
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      authViewModel.registerApi(
-                        _nameController,
-                        _emailController,
-                        _passwordController,
-                        context,
-                      );
-                    }
+                Consumer<AuthViewmodel>(builder: (context, model, child) {
+                  return RoundBtn(
+                    isLoading: model.isLoading,
+                    title: "Sign up",
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        authViewModel.registerApi(
+                          _nameController,
+                          _emailController,
+                          _passwordController,
+                          context,
+                        );
+                      }
 
-                    _nameController.clear();
-                    _emailController.clear();
-                    _passwordController.clear();
-                  },
-                ),
+                      _nameController.clear();
+                      _emailController.clear();
+                      _passwordController.clear();
+                    },
+                  );
+                }),
                 0.04.ph(context),
                 // Sign Up
                 Row(

@@ -1,9 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
+import 'package:provider/provider.dart';
 import 'package:zapdocs/Config/Components/AuthHeaderComp/auth_header_comp.dart';
 import 'package:zapdocs/Config/Components/RoundBtn/round_btn.dart';
 import 'package:zapdocs/Config/Extenshion/extenshion.dart';
 import 'package:zapdocs/Config/Routes/route_name.dart';
+import 'package:zapdocs/ViewModel/AuthViewModel/auth_viewModel.dart';
 
 class VerifyPinView extends StatefulWidget {
   final String email;
@@ -39,15 +43,19 @@ class _VerifyPinViewState extends State<VerifyPinView> {
                   length: 4,
                 ),
                 0.04.ph(context),
-                RoundBtn(
-                  title: "Verify Pin",
-                  onPressed: () {
-                    Navigator.pushNamed(context, RouteNames.updatePasswordView, arguments: {
-                      'email': widget.email,
-                      'pin': verifyPinController.text,
-                    });
-                  },
-                )
+                Consumer<AuthViewmodel>(
+                    builder: (context, authViewModel, child) {
+                  return RoundBtn(
+                    isLoading: authViewModel.isforgetLoading,
+                    title: "Verify Pin",
+                    onPressed: () {
+                      if (verifyPinController.text.length == 4) {
+                        authViewModel.verifyPinApi(
+                            widget.email, verifyPinController.text, context);
+                      }
+                    },
+                  );
+                })
               ],
             ),
           ),

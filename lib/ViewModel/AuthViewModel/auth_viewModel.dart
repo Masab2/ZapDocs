@@ -50,4 +50,56 @@ class AuthViewmodel with ChangeNotifier {
       Utils.showCustomSnackBar(context, error.toString(), "Error");
     });
   }
+
+  bool _isforgetLoading = false;
+
+  bool get isforgetLoading => _isforgetLoading;
+
+  void setForgetLoading(bool loading) {
+    _isforgetLoading = loading;
+    notifyListeners();
+  }
+
+  void forgetPasswordApi(
+      TextEditingController emailController, BuildContext context) {
+    setForgetLoading(true);
+    authRepo.forgetPassword(emailController.text).then((value) {
+      setForgetLoading(false);
+      Utils.showCustomSnackBar(context, value.message ?? "", "Success");
+      Navigator.pushNamed(context, RouteNames.verifyPinView,
+          arguments: emailController.text);
+    }).onError((error, stackTrace) {
+      setForgetLoading(false);
+      Utils.showCustomSnackBar(context, error.toString(), "Error");
+    });
+  }
+
+  void verifyPinApi(String email, String pin, BuildContext context) {
+    setForgetLoading(true);
+    authRepo.verifyPin(email, pin).then((value) {
+      setForgetLoading(false);
+
+      Utils.showCustomSnackBar(context, value.message ?? "", "Success");
+      Navigator.pushNamed(context, RouteNames.updatePasswordView, arguments: {
+        'email': email,
+        'pin': pin,
+      });
+    }).onError((error, stackTrace) {
+      setForgetLoading(false);
+      Utils.showCustomSnackBar(context, error.toString(), "Error");
+    });
+  }
+
+  void updatePasswordApi(String email, String password, BuildContext context, String pin) {
+    setForgetLoading(true);
+    authRepo.updatePassword(email, password, pin ).then((value) {
+      setForgetLoading(false);
+      Navigator.pop(context);
+      Utils.showCustomSnackBar(context, value.message ?? "", "Success");
+      Navigator.pushReplacementNamed(context, RouteNames.loginView);
+    }).onError((error, stackTrace) {
+      setForgetLoading(false);
+      Utils.showCustomSnackBar(context, error.toString(), "Error");
+    });
+  }
 }
