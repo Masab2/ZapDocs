@@ -14,11 +14,14 @@ class Routes {
         return MaterialPageRoute(
           builder: (context) => const LoginView(),
         );
+      case RouteNames.registerView:
+        return MaterialPageRoute(
+          builder: (context) => const SignUpView(),
+        );
       case RouteNames.homeView:
         return MaterialPageRoute(
           builder: (context) => const HomeView(),
         );
-
       default:
         return MaterialPageRoute(
           builder: (_) {

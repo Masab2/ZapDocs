@@ -4,21 +4,22 @@ import 'package:zapdocs/Config/Color/app_color.dart';
 import 'package:zapdocs/Config/Components/AuthfeildsComp/auth_feild_comp.dart';
 import 'package:zapdocs/Config/Components/RoundBtn/round_btn.dart';
 import 'package:zapdocs/Config/Extenshion/extenshion.dart';
-import 'package:zapdocs/Config/Routes/route_name.dart';
 import 'package:zapdocs/ViewModel/AuthViewModel/auth_viewModel.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({super.key});
+class SignUpView extends StatefulWidget {
+  const SignUpView({super.key});
 
   @override
-  State<LoginView> createState() => _LoginViewState();
+  State<SignUpView> createState() => _SignUpViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _SignUpViewState extends State<SignUpView> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
+  final FocusNode _nameFocusNode = FocusNode();
   final ValueNotifier<bool> _obscures = ValueNotifier(true);
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -34,7 +35,7 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthViewmodel>(context, listen: false);
+    final authViewModel = Provider.of<AuthViewmodel>(context, listen: false);
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -90,7 +91,7 @@ class _LoginViewState extends State<LoginView> {
                 // Subtitle
                 Center(
                   child: Text(
-                    'Sign in to continue',
+                    'Sign up to continue',
                     style: TextStyle(
                       fontSize: context.mh * 0.017,
                       color: AppColor.secondaryText,
@@ -101,13 +102,38 @@ class _LoginViewState extends State<LoginView> {
 
                 0.06.ph(context),
 
-                // Email Field Label
                 Form(
                   key: _formKey,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // Email Field Label
+                      Text(
+                        'Name',
+                        style: TextStyle(
+                          fontSize: context.mh * 0.017,
+                          fontWeight: FontWeight.w500,
+                          color: AppColor.primaryText,
+                        ),
+                      ),
+                      0.01.ph(context),
+
+                      // Email TextField
+                      AuthFieldComp(
+                        controller: _nameController,
+                        focusNode: _nameFocusNode,
+                        hintText: 'Enter your Name',
+                        prefixIcon: Icons.person_outline,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your name';
+                          }
+                          return null;
+                        },
+                      ),
+                      0.025.ph(context),
+                      // Email Field Label
                       Text(
                         'Email',
                         style: TextStyle(
@@ -124,6 +150,14 @@ class _LoginViewState extends State<LoginView> {
                         focusNode: _emailFocusNode,
                         hintText: 'Enter your email',
                         prefixIcon: Icons.email_outlined,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your email';
+                          } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+                            return 'Please enter a valid email';
+                          }
+                          return null;
+                        },
                       ),
                       0.025.ph(context),
 
@@ -148,6 +182,14 @@ class _LoginViewState extends State<LoginView> {
                             hintText: 'Enter your password',
                             prefixIcon: Icons.lock_outline,
                             obscureText: value,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your password';
+                              } else if (value.length < 6) {
+                                return 'Password must be at least 6 characters';
+                              }
+                              return null;
+                            },
                             suffixIcon: InkWell(
                               onTap: () {
                                 _obscures.value = !_obscures.value;
@@ -163,44 +205,27 @@ class _LoginViewState extends State<LoginView> {
                           );
                         },
                       ),
-                      0.015.ph(context),
-
-                      // Forgot Password
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                          onPressed: () {},
-                          style: TextButton.styleFrom(
-                            minimumSize: Size.zero,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 4),
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          ),
-                          child: Text(
-                            'Forgot password?',
-                            style: TextStyle(
-                              fontSize: context.mh * 0.013,
-                              color: AppColor.mediumPurple,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 ),
                 0.04.ph(context),
                 // Login Button
                 RoundBtn(
-                  title: "Sign In",
+                  
+                  title: "Sign up",
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      authProvider.loginApi(
+                      authViewModel.registerApi(
+                        _nameController,
                         _emailController,
                         _passwordController,
                         context,
                       );
                     }
+
+                    _nameController.clear();
+                    _emailController.clear();
+                    _passwordController.clear();
                   },
                 ),
                 0.04.ph(context),
@@ -209,7 +234,7 @@ class _LoginViewState extends State<LoginView> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Don\'t have an account?',
+                      'Already have an account?',
                       style: TextStyle(
                         fontSize: context.mh * 0.013,
                         color: AppColor.secondaryText,
@@ -217,7 +242,7 @@ class _LoginViewState extends State<LoginView> {
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, RouteNames.registerView);
+                        Navigator.pop(context);
                       },
                       style: TextButton.styleFrom(
                         minimumSize: Size.zero,

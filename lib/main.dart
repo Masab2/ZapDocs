@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zapdocs/Config/Color/app_color.dart';
 import 'package:zapdocs/Config/Routes/route_name.dart';
+import 'package:zapdocs/ViewModel/AuthViewModel/auth_viewModel.dart';
 import 'package:zapdocs/ViewModel/FilePickerViewModel/file_picker_viewModel.dart';
-
 import 'Config/Routes/routes.dart';
 
-void main() {
+void main() { 
   runApp(const MyApp());
 }
 
@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => FilePickerViewmodel()),
+        ChangeNotifierProvider(create: (_) => AuthViewmodel()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
