@@ -3,27 +3,16 @@ import 'package:zapdocs/Config/Color/app_color.dart';
 import 'package:zapdocs/Config/Extenshion/extenshion.dart';
 
 class NotesView extends StatefulWidget {
-  const NotesView({super.key});
+  final Map<String, dynamic> summary;
+  final String docType;
+  const NotesView({super.key, required this.summary, required this.docType});
 
   @override
   State<NotesView> createState() => _NotesViewState();
 }
 
 class _NotesViewState extends State<NotesView> {
-  // Sample data - in real app this would come from your database
-  final Map<String, dynamic> notesData = {
-    'title': 'Machine Learning Fundamentals',
-    'keyPoints': [
-      'Supervised learning requires labeled training data',
-      'Unsupervised learning works with unlabeled data',
-      'Reinforcement learning uses reward mechanisms',
-      'Deep learning utilizes neural networks with multiple layers',
-      'Feature extraction is crucial for model performance',
-      'Overfitting occurs when models perform well on training data but poorly on new data'
-    ],
-    'conclusion':
-        'Machine learning continues to evolve rapidly with applications across industries. The field requires both technical knowledge and domain expertise to develop effective solutions that can adapt to new data and changing requirements.'
-  };
+  
 
 
   @override
@@ -107,7 +96,7 @@ class _NotesViewState extends State<NotesView> {
                   ],
                 ),
                 child: Text(
-                  notesData['title'],
+                  widget.summary['Title'] ?? "",
                   style: TextStyle(
                     fontSize: context.mh * 0.022,
                     fontWeight: FontWeight.w500,
@@ -146,7 +135,7 @@ class _NotesViewState extends State<NotesView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ...List.generate(
-                      notesData['keyPoints'].length,
+                      widget.summary['Key Points'].length,
                       (index) => Padding(
                         padding: EdgeInsets.only(bottom: context.mh * 0.012),
                         child: Row(
@@ -166,7 +155,7 @@ class _NotesViewState extends State<NotesView> {
                             SizedBox(width: context.mw * 0.03),
                             Expanded(
                               child: Text(
-                                notesData['keyPoints'][index],
+                                widget.summary['Key Points'][index],
                                 style: TextStyle(
                                   fontSize: context.mh * 0.016,
                                   color: AppColor.primaryText,
@@ -209,7 +198,7 @@ class _NotesViewState extends State<NotesView> {
                   ],
                 ),
                 child: Text(
-                  notesData['conclusion'],
+                  widget.summary['Conclusion'],
                   style: TextStyle(
                     fontSize: context.mh * 0.016,
                     color: AppColor.primaryText,

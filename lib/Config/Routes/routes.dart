@@ -41,8 +41,14 @@ class Routes {
           ),
         );
       case RouteNames.notesView:
+        final Map<String, dynamic> arguments = args as Map<String, dynamic>;
+        final notes = arguments['Notes'] as Map<String, dynamic>;
+        final docType = arguments['docType'] as String;
         return MaterialPageRoute(
-          builder: (context) => NotesView(),
+          builder: (context) => NotesView(
+            summary: notes,
+            docType: docType,
+          ),
         );
 
       default:

@@ -46,7 +46,7 @@ class DottedBorderWidget extends StatelessWidget {
         // Upload section
         0.025.ph(context),
         Consumer<FilePickerViewmodel>(builder: (context, filePickerVM, child) {
-          if (filePickerVM.selectedFile.isNotEmpty) {
+          if (filePickerVM.selectedFile != null) {
             return _buildFilePreview(context, filePickerVM);
           } else {
             return _buildUploadArea(context, filePickerVM);
@@ -117,7 +117,6 @@ class DottedBorderWidget extends StatelessWidget {
 
   Widget _buildFilePreview(
       BuildContext context, FilePickerViewmodel filePickerVM) {
-    final fileName = filePickerVM.selectedFile.split('/').last;
 
     return Container(
       width: double.infinity,
@@ -139,7 +138,7 @@ class DottedBorderWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(
-              _getFileIcon(fileName),
+              _getFileIcon(filePickerVM.selectedFile!.path.split('/').last),
               size: 28,
               color: AppColor.mediumPurple,
             ),
@@ -150,7 +149,7 @@ class DottedBorderWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  fileName,
+                  filePickerVM.selectedFile!.path.split('/').last,
                   style: TextStyle(
                     fontSize: context.mh * 0.016,
                     fontWeight: FontWeight.w500,

@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:zapdocs/Config/Color/app_color.dart';
 import 'package:zapdocs/Config/Components/RoundBtn/round_btn.dart';
 import 'package:zapdocs/Config/Extenshion/extenshion.dart';
-import 'package:zapdocs/Config/Routes/route_name.dart';
 import 'package:zapdocs/Config/Widgets/widgets.dart';
 import 'package:zapdocs/ViewModel/FilePickerViewModel/file_picker_viewModel.dart';
+import 'package:zapdocs/ViewModel/NotesViewModel/notes_viewModel.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -97,18 +97,22 @@ class _HomeViewState extends State<HomeView> {
       bottomNavigationBar:
           Consumer<FilePickerViewmodel>(builder: (context, watch, child) {
         return Visibility(
-          visible: watch.selectedFile.isEmpty ? false : true,
+          visible: watch.selectedFile == null ? false : true,
           child: Padding(
             padding: EdgeInsets.symmetric(
               horizontal: context.mw * 0.05,
               vertical: context.mh * 0.03,
             ),
-            child: RoundBtn(
-              title: "Generate Notes",
-              onPressed: () {
-                Navigator.pushNamed(context, RouteNames.notesView);
-              },
-            ),
+            child: Consumer<NotesViewmodel>(
+                builder: (context, notesViewModel, child) {
+              return RoundBtn(
+                isLoading: notesViewModel.isLoading,
+                title: "Generate Notes",
+                onPressed: () {
+                  notesViewModel.generateNotes(watch.selectedFile, context);
+                },
+              );
+            }),
           ),
         );
       }),

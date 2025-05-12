@@ -33,126 +33,112 @@ class NetworkApiService implements BaseApiServices {
   }
 
   @override
-Future getPostApiResponse(String url, dynamic data, bool hasFile) async {
-  if (kDebugMode) {
-    print('POST Request: $url');
-    print('Payload Type: ${data.runtimeType}');
-  }
+  Future getPostApiResponse(String url, dynamic data, bool hasFile) async {
+    if (kDebugMode) {
+      print('POST Request: $url');
+      print('Payload Type: ${data.runtimeType}');
+    }
 
-  dynamic responseJson;
-  try {
-    if (hasFile) {
-      var request = http.MultipartRequest('POST', Uri.parse(url))
-        ..headers.addAll({
-          "Accept": "application/json",
+    dynamic responseJson;
+    try {
+      if (hasFile) {
+        var request = http.MultipartRequest('POST', Uri.parse(url))
+          ..headers.addAll({
+            "Accept": "application/json",
+          });
+
+        data.forEach((key, value) {
+          if (value is File) {
+            final mimeType =
+                lookupMimeType(value.path) ?? 'application/octet-stream';
+            request.files.add(http.MultipartFile(
+              key,
+              value.readAsBytes().asStream(),
+              value.lengthSync(),
+              filename: value.path.split('/').last,
+              contentType: MediaType.parse(mimeType),
+            ));
+          } else {
+            request.fields[key] = value.toString();
+          }
         });
 
-      String? fileKey;
-      Uint8List? fileBytes;
-      String? fileName;
-
-      data.forEach((key, value) {
-        if (value is String && value.contains('base64,')) {
-          fileKey = key;
-          final parts = value.split(',');
-          fileBytes = base64Decode(parts.last);
-          fileName = data['filename'] ?? 'uploaded_file';
-        } else {
-          request.fields[key] = value.toString();
-        }
-      });
-
-      if (fileKey != null && fileBytes != null) {
-        final mimeType = lookupMimeType(fileName ?? '', headerBytes: fileBytes) ?? 'application/octet-stream';
-        request.files.add(http.MultipartFile.fromBytes(
-          fileKey!,
-          fileBytes!,
-          filename: fileName ?? '$fileKey.file',
-          contentType: MediaType.parse(mimeType),
-        ));
+        final streamedResponse = await request.send();
+        final response = await http.Response.fromStream(streamedResponse);
+        responseJson = returnResponse(response);
+      } else {
+        final response = await http.post(
+          Uri.parse(url),
+          headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+          },
+          body: jsonEncode(data),
+        );
+        responseJson = returnResponse(response);
       }
-
-      final streamedResponse = await request.send();
-      final response = await http.Response.fromStream(streamedResponse);
-      responseJson = returnResponse(response);
-    } else {
-      final response = await http.post(
-        Uri.parse(url),
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json",
-        },
-        body: jsonEncode(data),
-      );
-      responseJson = returnResponse(response);
+    } on SocketException {
+      throw NoInternetException('No Internet Connection');
+    } on TimeoutException {
+      throw FetchDataException('Network Request timed out');
     }
-  } on SocketException {
-    throw NoInternetException('No Internet Connection');
-  } on TimeoutException {
-    throw FetchDataException('Network Request timed out');
+
+    return responseJson;
   }
 
-  return responseJson;
-}
+  @override
+  Future getPutApiResponse(String url, dynamic data, bool hasFile) async {
+    if (kDebugMode) {
+      print('PUT Request: $url');
+      print('Payload Type: ${data.runtimeType}');
+    }
 
-@override
-Future getPutApiResponse(String url, dynamic data, bool hasFile) async {
-  if (kDebugMode) {
-    print('PUT Request: $url');
-    print('Payload Type: ${data.runtimeType}');
-  }
+    dynamic responseJson;
+    try {
+      if (hasFile) {
+        var request = http.MultipartRequest('POST', Uri.parse(url))
+          ..headers.addAll({
+            "Accept": "application/json",
+          });
 
-  dynamic responseJson;
-  try {
-    if (hasFile) {
-      var request = http.MultipartRequest('PUT', Uri.parse(url))
-        ..headers.addAll({
-          "Accept": "application/json",
+        data.forEach((key, value) {
+          if (value is File) {
+            final mimeType =
+                lookupMimeType(value.path) ?? 'application/octet-stream';
+            request.files.add(http.MultipartFile(
+              key,
+              value.readAsBytes().asStream(),
+              value.lengthSync(),
+              filename: value.path.split('/').last,
+              contentType: MediaType.parse(mimeType),
+            ));
+          } else {
+            request.fields[key] = value.toString();
+          }
         });
 
-      data.forEach((key, value) {
-        if (key != 'file') {
-          request.fields[key] = value.toString();
-        }
-      });
-
-      if (data['file'] != null && data['file'].contains('base64,')) {
-        final parts = data['file'].split(',');
-        Uint8List fileBytes = base64Decode(parts.last);
-        final fileName = data['filename'] ?? 'updated_file';
-        final mimeType = lookupMimeType(fileName, headerBytes: fileBytes) ?? 'application/octet-stream';
-
-        request.files.add(http.MultipartFile.fromBytes(
-          'file',
-          fileBytes,
-          filename: fileName,
-          contentType: MediaType.parse(mimeType),
-        ));
+        final streamedResponse = await request.send();
+        final response = await http.Response.fromStream(streamedResponse);
+        responseJson = returnResponse(response);
+      } else {
+        final response = await http.post(
+          Uri.parse(url),
+          headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+          },
+          body: jsonEncode(data),
+        );
+        responseJson = returnResponse(response);
       }
-
-      final streamedResponse = await request.send();
-      final response = await http.Response.fromStream(streamedResponse);
-      responseJson = returnResponse(response);
-    } else {
-      final response = await http.put(
-        Uri.parse(url),
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json",
-        },
-        body: jsonEncode(data),
-      );
-      responseJson = returnResponse(response);
+    } on SocketException {
+      throw NoInternetException('No Internet Connection');
+    } on TimeoutException {
+      throw FetchDataException('Network Request timed out');
     }
-  } on SocketException {
-    throw NoInternetException('No Internet Connection');
-  } on TimeoutException {
-    throw FetchDataException('Network Request timed out');
+
+    return responseJson;
   }
-
-  return responseJson;
-}
-
 
   @override
   Future getdeleteApiResponse(String url) async {
