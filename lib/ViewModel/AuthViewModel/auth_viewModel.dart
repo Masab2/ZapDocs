@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:zapdocs/Config/Routes/route_name.dart';
 import 'package:zapdocs/Config/Utils/utils.dart';
 import 'package:zapdocs/Repository/AuthRepo/auth_http_repo.dart';
+import 'package:zapdocs/Services/SessionController/session_controller.dart';
 
 class AuthViewmodel with ChangeNotifier {
   final authRepo = AuthHttpRepo();
@@ -20,9 +21,14 @@ class AuthViewmodel with ChangeNotifier {
   void loginApi(TextEditingController emailController,
       TextEditingController passwordController, BuildContext context) {
     setLoading(true);
-    authRepo.login(emailController.text, passwordController.text).then((value) {
+    authRepo
+        .login(emailController.text, passwordController.text)
+        .then((value) async {
       setLoading(false);
       log(value.data?.email.toString() ?? "");
+      await SessionController()
+          .saveUserInPrefrences(value, value.data?.id ?? "");
+      await SessionController().getUserFromPrefrences();
       Utils.showCustomSnackBar(context, value.message ?? "", "Success");
       Navigator.pushReplacementNamed(context, RouteNames.homeView);
     }).onError((error, stackTrace) {
@@ -90,9 +96,10 @@ class AuthViewmodel with ChangeNotifier {
     });
   }
 
-  void updatePasswordApi(String email, String password, BuildContext context, String pin) {
+  void updatePasswordApi(
+      String email, String password, BuildContext context, String pin) {
     setForgetLoading(true);
-    authRepo.updatePassword(email, password, pin ).then((value) {
+    authRepo.updatePassword(email, password, pin).then((value) {
       setForgetLoading(false);
       Navigator.pop(context);
       Utils.showCustomSnackBar(context, value.message ?? "", "Success");

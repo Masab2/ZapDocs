@@ -1,12 +1,9 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 import 'package:zapdocs/Config/Components/AuthHeaderComp/auth_header_comp.dart';
 import 'package:zapdocs/Config/Components/RoundBtn/round_btn.dart';
 import 'package:zapdocs/Config/Extenshion/extenshion.dart';
-import 'package:zapdocs/Config/Routes/route_name.dart';
 import 'package:zapdocs/ViewModel/AuthViewModel/auth_viewModel.dart';
 
 class VerifyPinView extends StatefulWidget {

@@ -13,3 +13,6 @@ export './Auth//ForgetPassword/update_password_view.dart';
 export './Auth/ForgetPassword/verify_pin_view.dart';
 // Home View
 export './Home/home_view.dart';
+
+// Notes View
+export './NotesView/notes_view.dart';

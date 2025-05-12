@@ -14,4 +14,11 @@ class AppUrl {
 
   // Update Password
   static const String updatePassword = '${baseUrl}user/update-password';
+
+  // Generate Notes Url
+  static const String generateNotes = '${baseUrl}api/summerize-notes';
+
+  // get notes
+  static String getNotes(userId) =>
+      '${baseUrl}api/get-all-notes?userId=$userId';
 }

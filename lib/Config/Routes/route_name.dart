@@ -6,4 +6,7 @@ class RouteNames {
   static const String checkEmailView = '/checkEmailView';
   static const String verifyPinView = '/verifyPinView';
   static const String updatePasswordView = '/updatePasswordView';
+
+ // Notes View
+  static const String notesView = '/notesView'; 
 }

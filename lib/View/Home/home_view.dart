@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:zapdocs/Config/Color/app_color.dart';
 import 'package:zapdocs/Config/Components/RoundBtn/round_btn.dart';
 import 'package:zapdocs/Config/Extenshion/extenshion.dart';
+import 'package:zapdocs/Config/Routes/route_name.dart';
 import 'package:zapdocs/Config/Widgets/widgets.dart';
 import 'package:zapdocs/ViewModel/FilePickerViewModel/file_picker_viewModel.dart';
 
@@ -99,39 +100,18 @@ class _HomeViewState extends State<HomeView> {
           visible: watch.selectedFile.isEmpty ? false : true,
           child: Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: context.mw * 0.02,
-              vertical: context.mh * 0.01,
+              horizontal: context.mw * 0.05,
+              vertical: context.mh * 0.03,
             ),
             child: RoundBtn(
               title: "Generate Notes",
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, RouteNames.notesView);
+              },
             ),
           ),
         );
       }),
-      floatingActionButton: InkWell(
-        onTap: () {},
-        child: Container(
-          width: 52,
-          height: 52,
-          decoration: BoxDecoration(
-            color: AppColor.mediumPurple,
-            shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                color: AppColor.mediumPurple.withOpacity(0.3),
-                blurRadius: 8,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: const Icon(
-            Icons.add,
-            color: Colors.white,
-            size: 26,
-          ),
-        ),
-      ),
     );
   }
 }

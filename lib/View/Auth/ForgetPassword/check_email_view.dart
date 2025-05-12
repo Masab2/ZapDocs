@@ -4,7 +4,6 @@ import 'package:zapdocs/Config/Components/AuthHeaderComp/auth_header_comp.dart';
 import 'package:zapdocs/Config/Components/AuthfeildsComp/auth_feild_comp.dart';
 import 'package:zapdocs/Config/Components/RoundBtn/round_btn.dart';
 import 'package:zapdocs/Config/Extenshion/extenshion.dart';
-import 'package:zapdocs/Config/Routes/route_name.dart';
 import 'package:zapdocs/ViewModel/AuthViewModel/auth_viewModel.dart';
 
 class CheckEmailView extends StatefulWidget {

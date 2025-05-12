@@ -40,6 +40,11 @@ class Routes {
             email: email,
           ),
         );
+      case RouteNames.notesView:
+        return MaterialPageRoute(
+          builder: (context) => NotesView(),
+        );
+
       default:
         return MaterialPageRoute(
           builder: (_) {
