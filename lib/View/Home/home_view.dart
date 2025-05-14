@@ -15,6 +15,14 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<NotesViewmodel>(context, listen: false).getAllNotesApi();
+    });
+    super.initState();
+  }
+
   // Mock data for recent summaries
   final List<Map<String, dynamic>> _recentSummaries = [
     {
@@ -75,22 +83,30 @@ class _HomeViewState extends State<HomeView> {
             ),
             onPressed: () {},
           ),
-          const SizedBox(width: 12),
+          0.02.pw(context),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: context.mw * 0.03),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              0.02.ph(context),
-              DottedBorderWidget(),
-              0.03.ph(context),
-              QuickActionButtonWidget(),
-              0.03.ph(context),
-              RecentSummerizeWidget(recentSummaries: _recentSummaries),
-            ],
+      body: RefreshIndicator(
+        onRefresh: () async {
+          Provider.of<NotesViewmodel>(context, listen: false).getAllNotesApi();
+        },
+        child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(
+            parent: AlwaysScrollableScrollPhysics(),
+          ),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: context.mw * 0.03),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                0.02.ph(context),
+                DottedBorderWidget(),
+                0.03.ph(context),
+                QuickActionButtonWidget(),
+                0.03.ph(context),
+                RecentSummerizeWidget(recentSummaries: _recentSummaries),
+              ],
+            ),
           ),
         ),
       ),

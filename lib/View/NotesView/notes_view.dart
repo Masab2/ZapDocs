@@ -12,9 +12,6 @@ class NotesView extends StatefulWidget {
 }
 
 class _NotesViewState extends State<NotesView> {
-  
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

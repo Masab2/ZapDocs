@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:zapdocs/Config/Routes/route_name.dart';
 import 'package:zapdocs/Config/Utils/extract_notes_util.dart';
 import 'package:zapdocs/Config/Utils/utils.dart';
+import 'package:zapdocs/Model/GetAllNotesModel/get_all_notes_model.dart';
 import 'package:zapdocs/Repository/NotesRepo/notes_http_repo.dart';
 import 'package:zapdocs/Repository/NotesRepo/notes_repo.dart';
+import 'package:zapdocs/data/Response/api_response.dart';
 
 class NotesViewmodel with ChangeNotifier {
   final NotesRepo _repo = NotesHttpRepo();
@@ -30,5 +32,25 @@ class NotesViewmodel with ChangeNotifier {
       setLoading(false);
       Utils.showCustomSnackBar(context, error.toString(), "Error");
     });
+  }
+
+  ApiResponse<GetAllNotesModel> apiResponse = ApiResponse.notStarted();
+
+  void setApiResponse(ApiResponse<GetAllNotesModel> response) {
+    apiResponse = response;
+    notifyListeners();
+  }
+
+  void getAllNotesApi() async {
+    try {
+      setApiResponse(ApiResponse.loading());
+      await _repo.getAllNotesApi().then((value) {
+        setApiResponse(ApiResponse.completed(value));
+      }).onError((error, stackTrace) {
+        setApiResponse(ApiResponse.error(error.toString()));
+      });
+    } catch (e) {
+      setApiResponse(ApiResponse.error(e.toString()));
+    }
   }
 }

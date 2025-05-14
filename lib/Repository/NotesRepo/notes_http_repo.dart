@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:zapdocs/Config/App/app_url.dart';
+import 'package:zapdocs/Model/GetAllNotesModel/get_all_notes_model.dart';
 import 'package:zapdocs/Model/NotesModel/notes_model.dart';
 import 'package:zapdocs/Repository/NotesRepo/notes_repo.dart';
 import 'package:zapdocs/Services/LocalStorage/local_storage.dart';
@@ -18,7 +18,15 @@ class NotesHttpRepo implements NotesRepo {
       'userId': userId,
     };
     log(data.toString());
-    final response = await _api.getPostApiResponse(AppUrl.generateNotes, data, true);
+    final response =
+        await _api.getPostApiResponse(AppUrl.generateNotes, data, true);
     return NotesModel.fromJson(response);
+  }
+
+  @override
+  Future<GetAllNotesModel> getAllNotesApi() async {
+    final userId = await _localStorage.readValue("id");
+    final response = await _api.getGetApiResponse(AppUrl.getNotes(userId));
+    return GetAllNotesModel.fromJson(response);
   }
 }

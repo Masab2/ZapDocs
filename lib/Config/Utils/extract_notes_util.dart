@@ -51,4 +51,37 @@ class ExtractNotesUtil {
 
     return result;
   }
+
+  static String getDocumentTypeLabel(String docType) {
+    switch (docType.toLowerCase()) {
+      case '.pdf':
+        return 'PDF Document';
+      case '.doc':
+      case '.docx':
+        return 'Word Document';
+      case '.ppt':
+      case '.pptx':
+        return 'PowerPoint Presentation';
+      default:
+        return 'Unknown Document Type';
+    }
+  }
+
+
+  // Function For format Date 
+  static String formatDate(String date) {
+    final dateTime = DateTime.parse(date);
+    final now = DateTime.now();
+    final difference = now.difference(dateTime);
+
+    if (difference.inDays == 0) {
+      return 'Today';
+    } else if (difference.inDays == 1) {
+      return 'Yesterday';
+    } else if (difference.inDays < 7) {
+      return '${difference.inDays} days ago';
+    } else {
+      return '${difference.inDays ~/ 7} weeks ago';
+    }
+  }
 }
