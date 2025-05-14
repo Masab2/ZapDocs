@@ -23,37 +23,6 @@ class _HomeViewState extends State<HomeView> {
     super.initState();
   }
 
-  // Mock data for recent summaries
-  final List<Map<String, dynamic>> _recentSummaries = [
-    {
-      'title': 'Project Proposal',
-      'type': 'PDF',
-      'date': '2 hours ago',
-      'wordCount': '368 words',
-      'color': const Color(0xFFE8F5E9),
-      'icon': Icons.picture_as_pdf,
-      'iconColor': Colors.red
-    },
-    {
-      'title': 'Quarterly Presentation',
-      'type': 'PPT',
-      'date': 'Yesterday',
-      'wordCount': '215 words',
-      'color': const Color(0xFFF3E5F5),
-      'icon': Icons.slideshow,
-      'iconColor': AppColor.mediumPurple
-    },
-    {
-      'title': 'Research Paper',
-      'type': 'PDF',
-      'date': '3 days ago',
-      'wordCount': '532 words',
-      'color': const Color(0xFFE3F2FD),
-      'icon': Icons.picture_as_pdf,
-      'iconColor': Colors.red
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,7 +73,7 @@ class _HomeViewState extends State<HomeView> {
                 0.03.ph(context),
                 QuickActionButtonWidget(),
                 0.03.ph(context),
-                RecentSummerizeWidget(recentSummaries: _recentSummaries),
+                RecentSummerizeWidget(),
               ],
             ),
           ),

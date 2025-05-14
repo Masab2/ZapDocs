@@ -9,8 +9,7 @@ import 'package:zapdocs/data/Response/status.dart';
 import '../widgets.dart';
 
 class RecentSummerizeWidget extends StatelessWidget {
-  final List<Map<String, dynamic>> recentSummaries;
-  const RecentSummerizeWidget({super.key, required this.recentSummaries});
+  const RecentSummerizeWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
