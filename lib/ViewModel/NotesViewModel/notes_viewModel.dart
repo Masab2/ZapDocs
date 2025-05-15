@@ -1,10 +1,13 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:zapdocs/Config/Routes/route_name.dart';
 import 'package:zapdocs/Config/Utils/extract_notes_util.dart';
 import 'package:zapdocs/Config/Utils/utils.dart';
 import 'package:zapdocs/Model/GetAllNotesModel/get_all_notes_model.dart';
 import 'package:zapdocs/Repository/NotesRepo/notes_http_repo.dart';
 import 'package:zapdocs/Repository/NotesRepo/notes_repo.dart';
+import 'package:zapdocs/ViewModel/FilePickerViewModel/file_picker_viewModel.dart';
 import 'package:zapdocs/data/Response/api_response.dart';
 
 class NotesViewmodel with ChangeNotifier {
@@ -22,6 +25,8 @@ class NotesViewmodel with ChangeNotifier {
     setLoading(true);
     await _repo.generateNotes(file).then((value) {
       setLoading(false);
+      Provider.of<FilePickerViewmodel>(context, listen: false).clearFile();
+      getAllNotesApi();
       var data =
           ExtractNotesUtil.extractHeadingsAndContent(value.content ?? "");
       Navigator.pushNamed(context, RouteNames.notesView, arguments: {
