@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zapdocs/Config/Color/app_color.dart';
 import 'package:zapdocs/Config/Extenshion/extenshion.dart';
+import 'package:zapdocs/Config/Routes/route_name.dart';
+import 'package:zapdocs/Config/Utils/extract_notes_util.dart';
 import 'package:zapdocs/Model/GetAllNotesModel/get_all_notes_model.dart';
 import 'package:zapdocs/ViewModel/NotesViewModel/notes_viewModel.dart';
 import 'package:zapdocs/data/Response/status.dart';
@@ -53,7 +55,17 @@ class RecentSummerizeWidget extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final item =
                       model.apiResponse.data?.data?[index] ?? NotesDataList();
-                  return RecentSummaryItem(item: item);
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, RouteNames.notesView,
+                          arguments: {
+                            "Notes": ExtractNotesUtil.extractHeadingsAndContent(
+                                item.content),
+                            "docType": item.docType,
+                          });
+                    },
+                    child: RecentSummaryItem(item: item),
+                  );
                 },
               );
             case Status.error:

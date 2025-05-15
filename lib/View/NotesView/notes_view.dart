@@ -79,6 +79,7 @@ class _NotesViewState extends State<NotesView> {
               ),
               SizedBox(height: context.mh * 0.01),
               Container(
+                width: double.infinity,
                 padding: EdgeInsets.all(context.mw * 0.04),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -95,7 +96,7 @@ class _NotesViewState extends State<NotesView> {
                 child: Text(
                   widget.summary['Title'] ?? "",
                   style: TextStyle(
-                    fontSize: context.mh * 0.022,
+                    fontSize: context.mh * 0.019,
                     fontWeight: FontWeight.w500,
                     color: AppColor.primaryText,
                   ),

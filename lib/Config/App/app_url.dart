@@ -1,6 +1,8 @@
 class AppUrl {
   // Base Url
-  static const String baseUrl = 'http://localhost:3000/';
+  // static const String baseUrl = 'http://localhost:3000/';
+  // Production Url
+  static const String baseUrl = 'https://zap-docs-backend.vercel.app/';
   // Login
   static const String login = '${baseUrl}user/login';
   // Register
