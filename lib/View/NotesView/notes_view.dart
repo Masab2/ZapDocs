@@ -17,7 +17,11 @@ class _NotesViewState extends State<NotesView> {
     return Scaffold(
       backgroundColor: const Color(0xFFF9F9FC),
       extendBodyBehindAppBar: true,
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text(
+          widget.summary['Title'] ?? "",
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
