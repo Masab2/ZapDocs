@@ -19,3 +19,6 @@ export './History/history_view.dart';
 
 // Notes View
 export './NotesView/notes_view.dart';
+
+// Profile View
+export './ProfileView/profile_view.dart';

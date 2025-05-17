@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:zapdocs/Config/Color/app_color.dart';
 import 'package:zapdocs/Config/Components/RoundBtn/round_btn.dart';
 import 'package:zapdocs/Config/Extenshion/extenshion.dart';
+import 'package:zapdocs/Config/Routes/route_name.dart';
 import 'package:zapdocs/Config/Widgets/widgets.dart';
 import 'package:zapdocs/ViewModel/FilePickerViewModel/file_picker_viewModel.dart';
 import 'package:zapdocs/ViewModel/NotesViewModel/notes_viewModel.dart';
@@ -50,7 +51,9 @@ class _HomeViewState extends State<HomeView> {
                 color: AppColor.mediumPurple,
               ),
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, RouteNames.profileView);
+            },
           ),
           0.02.pw(context),
         ],

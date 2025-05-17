@@ -54,6 +54,10 @@ class Routes {
         return MaterialPageRoute(
           builder: (context) => HistoryView(),
         );
+      case RouteNames.profileView:
+        return MaterialPageRoute(
+          builder: (context) => ProfileView(),
+        );
       default:
         return MaterialPageRoute(
           builder: (_) {
