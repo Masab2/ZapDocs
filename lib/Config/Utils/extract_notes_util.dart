@@ -7,26 +7,30 @@ class ExtractNotesUtil {
       'Title': '',
       'Key Points': <String>[],
       'Conclusion': '',
+      'Questions & Answers': <String, String>{},
     };
 
     String? currentKey;
     List<String> keyTakeawayList = [];
     StringBuffer conclusionContent = StringBuffer();
 
-    for (final line in lines) {
-      final trimmedLine = line.trim();
+    for (int i = 0; i < lines.length; i++) {
+      final trimmedLine = lines[i].trim();
 
+      // Title
       if (trimmedLine.startsWith('Title:')) {
         result['Title'] = trimmedLine.replaceFirst('Title:', '').trim();
         currentKey = null;
         continue;
       }
 
+      // Key Points
       if (trimmedLine.startsWith('Key Points:')) {
         currentKey = 'Key Points';
         continue;
       }
 
+      // Conclusion
       if (trimmedLine.startsWith('Conclusion:')) {
         if (currentKey == 'Key Points') {
           result['Key Points'] = keyTakeawayList;
@@ -38,13 +42,29 @@ class ExtractNotesUtil {
         continue;
       }
 
+      // Collect Key Points
       if (currentKey == 'Key Points' && trimmedLine.startsWith('- ')) {
         keyTakeawayList.add(trimmedLine.substring(2).trim());
-      } else if (currentKey == 'Conclusion') {
+      }
+
+      // Collect Conclusion
+      else if (currentKey == 'Conclusion') {
         conclusionContent.writeln(trimmedLine);
+      }
+
+      // Questions & Answers (match numbered Q/A pattern)
+      final qMatch = RegExp(r'^\d+\.\s*Q:\s*(.*)$').firstMatch(trimmedLine);
+      if (qMatch != null && i + 1 < lines.length) {
+        final question = qMatch.group(1)!.trim();
+        final nextLine = lines[i + 1].trim();
+        if (nextLine.startsWith('A:')) {
+          final answer = nextLine.replaceFirst('A:', '').trim();
+          result['Questions & Answers'][question] = answer;
+        }
       }
     }
 
+    // Final conclusion content
     if (currentKey == 'Key Points') {
       result['Key Points'] = keyTakeawayList;
     } else if (currentKey == 'Conclusion') {
