@@ -64,7 +64,12 @@ class NotesViewmodel with ChangeNotifier {
   }
 
   final TextEditingController searchController = TextEditingController();
-  final List<String> filterOptions = ['All', 'Word Document', 'PowerPoint Presentation', 'PDF Document'];
+  final List<String> filterOptions = [
+    'All',
+    'Word Document',
+    'PowerPoint Presentation',
+    'PDF Document'
+  ];
   String _selectedFilter = 'All';
 
   String get selectedFilter => _selectedFilter;
@@ -74,8 +79,6 @@ class NotesViewmodel with ChangeNotifier {
     filterNotesByFilter();
     notifyListeners();
   }
-
-  
 
   @override
   void dispose() {
@@ -105,9 +108,35 @@ class NotesViewmodel with ChangeNotifier {
       filteredNotes = allNotes;
     } else {
       filteredNotes = allNotes.where((note) {
-        return ExtractNotesUtil.getDocumentTypeLabel(note.docType) == _selectedFilter;
+        return ExtractNotesUtil.getDocumentTypeLabel(note.docType) ==
+            _selectedFilter;
       }).toList();
     }
     notifyListeners();
+  }
+
+  bool _isImportLoading = false;
+  bool get isImportLoading => _isImportLoading;
+  void setImportLoading(bool value) {
+    _isImportLoading = value;
+    notifyListeners();
+  }
+
+  void generateNotesWithUrl(fileUrl, BuildContext context) async {
+    setImportLoading(true);
+    await _repo.importNotesFromUrl(fileUrl).then((value) {
+      setImportLoading(false);
+      getAllNotesApi();
+      Navigator.pop(context);
+      var data =
+          ExtractNotesUtil.extractHeadingsAndContent(value.content ?? "");
+      Navigator.pushNamed(context, RouteNames.notesView, arguments: {
+        "Notes": data,
+        "docType": value.docType ?? "",
+      });
+    }).onError((error, stackTrace) {
+      setImportLoading(false);
+      Utils.showCustomSnackBar(context, error.toString(), "Error");
+    });
   }
 }

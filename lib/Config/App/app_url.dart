@@ -22,6 +22,9 @@ class AppUrl {
   // Generate Notes Url
   static const String generateNotes = '${baseUrl}api/summerize-notes';
 
+  // Import Notes From Url
+  static const String importNotesFromUrl = '${baseUrl}api/summerize-notes-with-url';
+
   // get notes
   static String getNotes(userId) =>
       '${baseUrl}api/get-all-notes?userId=$userId';

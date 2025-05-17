@@ -6,4 +6,6 @@ import 'package:zapdocs/Model/NotesModel/notes_model.dart';
 abstract class NotesRepo {
   Future<NotesModel> generateNotes(File file);
   Future<GetAllNotesModel> getAllNotesApi();
+
+  Future<NotesModel> importNotesFromUrl(String url);
 }

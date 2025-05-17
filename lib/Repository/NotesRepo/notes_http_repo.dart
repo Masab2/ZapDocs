@@ -29,4 +29,16 @@ class NotesHttpRepo implements NotesRepo {
     final response = await _api.getGetApiResponse(AppUrl.getNotes(userId));
     return GetAllNotesModel.fromJson(response);
   }
+  
+  @override
+  Future<NotesModel> importNotesFromUrl(String url) async{
+    final userId = await _localStorage.readValue("id");
+    Map<String, dynamic> data = {
+      'fileUrl': url,
+      'userId': userId,
+    };
+    final response =
+        await _api.getPostApiResponse(AppUrl.importNotesFromUrl, data, false);
+    return NotesModel.fromJson(response);
+  }
 }
