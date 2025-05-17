@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zapdocs/Config/Color/app_color.dart';
 import 'package:zapdocs/Config/Extenshion/extenshion.dart';
+import 'package:zapdocs/Config/Utils/extract_notes_util.dart';
 
 class NotesView extends StatefulWidget {
   final Map<String, dynamic> summary;
@@ -55,7 +56,7 @@ class _NotesViewState extends State<NotesView> {
                     ),
                     SizedBox(width: context.mw * 0.01),
                     Text(
-                      'PDF Document',
+                      ExtractNotesUtil.getDocumentTypeLabel(widget.docType),
                       style: TextStyle(
                         color: AppColor.primaryColor,
                         fontSize: context.mh * 0.014,
