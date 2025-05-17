@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zapdocs/Config/Color/app_color.dart';
 import 'package:zapdocs/Config/Extenshion/extenshion.dart';
+import 'package:zapdocs/Config/Routes/route_name.dart';
 import 'package:zapdocs/Config/Widgets/HomeViewWidgets/quick_action_card.dart';
 
 class QuickActionButtonWidget extends StatelessWidget {
@@ -34,7 +35,9 @@ class QuickActionButtonWidget extends StatelessWidget {
               icon: Icons.history,
               label: 'History',
               color: Colors.green,
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, RouteNames.historyView);
+              },
             ),
           ],
         ),

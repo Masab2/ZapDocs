@@ -4,6 +4,7 @@ import 'package:zapdocs/Config/Color/app_color.dart';
 import 'package:zapdocs/Config/Routes/route_name.dart';
 import 'package:zapdocs/ViewModel/AuthViewModel/auth_viewModel.dart';
 import 'package:zapdocs/ViewModel/FilePickerViewModel/file_picker_viewModel.dart';
+import 'package:zapdocs/ViewModel/HistoryViewModel/history_viewModel.dart';
 import 'package:zapdocs/ViewModel/NotesViewModel/notes_viewModel.dart';
 import 'Config/Routes/routes.dart';
 
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => FilePickerViewmodel()),
         ChangeNotifierProvider(create: (_) => AuthViewmodel()),
         ChangeNotifierProvider(create: (_) => NotesViewmodel()),
+        ChangeNotifierProvider(create: (_) => HistoryProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

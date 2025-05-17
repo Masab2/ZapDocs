@@ -50,7 +50,10 @@ class Routes {
             docType: docType,
           ),
         );
-
+      case RouteNames.historyView:
+        return MaterialPageRoute(
+          builder: (context) => HistoryView(),
+        );
       default:
         return MaterialPageRoute(
           builder: (_) {

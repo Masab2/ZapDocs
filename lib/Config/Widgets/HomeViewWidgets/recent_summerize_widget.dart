@@ -29,7 +29,9 @@ class RecentSummerizeWidget extends StatelessWidget {
               ),
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, RouteNames.historyView);
+              },
               child: Text(
                 'See All',
                 style: TextStyle(
@@ -46,12 +48,13 @@ class RecentSummerizeWidget extends StatelessWidget {
           switch (model.apiResponse.status) {
             case Status.loading:
               return CircularProgressIndicator.adaptive();
-
             case Status.completed:
               return ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: model.apiResponse.data?.data?.length ?? 0,
+                itemCount: ((model.apiResponse.data?.data?.length ?? 0) > 3
+                    ? 3
+                    : (model.apiResponse.data?.data?.length ?? 0)),
                 itemBuilder: (context, index) {
                   final item =
                       model.apiResponse.data?.data?[index] ?? NotesDataList();

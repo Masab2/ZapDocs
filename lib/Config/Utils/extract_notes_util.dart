@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class ExtractNotesUtil {
   static Map<String, dynamic> extractHeadingsAndContent(String summary) {
     final lines = summary.split('\n');
@@ -67,21 +69,22 @@ class ExtractNotesUtil {
     }
   }
 
-
-  // Function For format Date 
+  // Function For format Date
   static String formatDate(String date) {
-    final dateTime = DateTime.parse(date);
+    final dateTime = DateTime.parse(date).toLocal();
     final now = DateTime.now();
     final difference = now.difference(dateTime);
 
-    if (difference.inDays == 0) {
-      return 'Today';
-    } else if (difference.inDays == 1) {
-      return 'Yesterday';
+    if (difference.inSeconds < 60) {
+      return 'Just now';
+    } else if (difference.inMinutes < 60) {
+      return '${difference.inMinutes}m ago';
+    } else if (difference.inHours < 24) {
+      return '${difference.inHours}h ago';
     } else if (difference.inDays < 7) {
-      return '${difference.inDays} days ago';
+      return '${difference.inDays}d ago';
     } else {
-      return '${difference.inDays ~/ 7} weeks ago';
+      return DateFormat('MMM d').format(dateTime);
     }
   }
 }
