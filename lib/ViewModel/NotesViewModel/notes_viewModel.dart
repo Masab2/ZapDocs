@@ -40,8 +40,13 @@ class NotesViewmodel with ChangeNotifier {
 
   ApiResponse<GetAllNotesModel> apiResponse = ApiResponse.notStarted();
 
+  List<NotesDataList> allNotes = [];
+  List<NotesDataList> filteredNotes = [];
+
   void setApiResponse(ApiResponse<GetAllNotesModel> response) {
     apiResponse = response;
+    allNotes = apiResponse.data?.data ?? [];
+    filteredNotes = allNotes;
     notifyListeners();
   }
 
@@ -56,5 +61,53 @@ class NotesViewmodel with ChangeNotifier {
     } catch (e) {
       setApiResponse(ApiResponse.error(e.toString()));
     }
+  }
+
+  final TextEditingController searchController = TextEditingController();
+  final List<String> filterOptions = ['All', 'Word Document', 'PowerPoint Presentation', 'PDF Document'];
+  String _selectedFilter = 'All';
+
+  String get selectedFilter => _selectedFilter;
+
+  void setFilter(String value) {
+    _selectedFilter = value;
+    filterNotesByFilter();
+    notifyListeners();
+  }
+
+  
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
+  void clearSearch() {
+    searchController.clear();
+    notifyListeners();
+  }
+
+  // Filtered Notes According to the search query
+  void filterNotes(String query) {
+    filteredNotes = allNotes.where((note) {
+      final titleMatch = note.title.toLowerCase().contains(query.toLowerCase());
+      final contentMatch =
+          note.content.toLowerCase().contains(query.toLowerCase());
+      return titleMatch || contentMatch;
+    }).toList();
+    notifyListeners();
+  }
+
+  // Filtered Notes According to the selected filter
+  void filterNotesByFilter() {
+    if (_selectedFilter == 'All') {
+      filteredNotes = allNotes;
+    } else {
+      filteredNotes = allNotes.where((note) {
+        return ExtractNotesUtil.getDocumentTypeLabel(note.docType) == _selectedFilter;
+      }).toList();
+    }
+    notifyListeners();
   }
 }

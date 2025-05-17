@@ -4,7 +4,6 @@ import 'package:zapdocs/Config/Extenshion/extenshion.dart';
 import 'package:zapdocs/Config/Routes/route_name.dart';
 import 'package:zapdocs/Config/Utils/extract_notes_util.dart';
 import 'package:zapdocs/Config/Widgets/widgets.dart';
-import 'package:zapdocs/Model/GetAllNotesModel/get_all_notes_model.dart';
 import 'package:zapdocs/ViewModel/NotesViewModel/notes_viewModel.dart';
 import 'package:zapdocs/data/Response/status.dart';
 
@@ -38,10 +37,9 @@ class _HistoryViewState extends State<HistoryView> {
                       physics: BouncingScrollPhysics(
                         parent: AlwaysScrollableScrollPhysics(),
                       ),
-                      itemCount: model.apiResponse.data?.data?.length ?? 0,
+                      itemCount: model.filteredNotes.length,
                       itemBuilder: (context, index) {
-                        final item = model.apiResponse.data?.data?[index] ??
-                            NotesDataList();
+                        final item = model.filteredNotes[index];
                         return GestureDetector(
                           onTap: () {
                             Navigator.pushNamed(context, RouteNames.notesView,

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zapdocs/Config/Color/app_color.dart';
 import 'package:zapdocs/Config/Extenshion/extenshion.dart';
-import 'package:zapdocs/ViewModel/HistoryViewModel/history_viewModel.dart';
+import 'package:zapdocs/ViewModel/NotesViewModel/notes_viewModel.dart';
 
 class SearchAndFilterBar extends StatelessWidget {
   const SearchAndFilterBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<HistoryProvider>(
+    return Consumer<NotesViewmodel>(
       builder: (context, provider, _) {
         return Container(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -32,7 +32,9 @@ class SearchAndFilterBar extends StatelessWidget {
                 ),
                 child: TextField(
                   controller: provider.searchController,
-                  onChanged: provider.onSearch,
+                  onChanged: (value) {
+                    provider.filterNotes(value);
+                  },
                   decoration: InputDecoration(
                     hintText: "Search in history...",
                     hintStyle: TextStyle(
@@ -46,7 +48,7 @@ class SearchAndFilterBar extends StatelessWidget {
                     ),
                     border: InputBorder.none,
                     contentPadding:
-                         EdgeInsets.symmetric(vertical: context.mh * 0.012),
+                        EdgeInsets.symmetric(vertical: context.mh * 0.012),
                   ),
                 ),
               ),
@@ -69,9 +71,8 @@ class SearchAndFilterBar extends StatelessWidget {
                           option,
                           style: TextStyle(
                             fontSize: context.mh * 0.015,
-                            fontWeight: isSelected
-                                ? FontWeight.w600
-                                : FontWeight.w500,
+                            fontWeight:
+                                isSelected ? FontWeight.w600 : FontWeight.w500,
                             color: isSelected
                                 ? Colors.white
                                 : AppColor.secondaryText,
