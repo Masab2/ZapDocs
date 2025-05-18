@@ -4,10 +4,12 @@ import 'package:zapdocs/Config/App/app_url.dart';
 import 'package:zapdocs/Model/SuccessModel/success_model.dart';
 import 'package:zapdocs/Model/UserModel/user_model.dart';
 import 'package:zapdocs/Repository/AuthRepo/auth_repo.dart';
+import 'package:zapdocs/Services/LocalStorage/local_storage.dart';
 import 'package:zapdocs/data/Network/network_api_service.dart';
 
 class AuthHttpRepo implements AuthRepo {
   final _api = NetworkApiService();
+  final LocalStorage _localStorage = LocalStorage();
   @override
   Future<UserModel> login(String email, String password) async {
     Map<String, dynamic> data = {
@@ -43,10 +45,11 @@ class AuthHttpRepo implements AuthRepo {
   }
 
   @override
-  Future<SuccessModel> updatePassword(String email, String password, String resetCode) async {
+  Future<SuccessModel> updatePassword(
+      String email, String password, String resetCode) async {
     Map<String, dynamic> data = {
       'email': email,
-      "resetCode" : resetCode,
+      "resetCode": resetCode,
       'newPassword': password,
     };
     final response =
@@ -62,6 +65,17 @@ class AuthHttpRepo implements AuthRepo {
     };
     final response =
         await _api.getPostApiResponse(AppUrl.verifyPin, data, false);
+    return SuccessModel.fromJson(response);
+  }
+
+  @override
+  Future<SuccessModel> deleteAccount() async {
+    final userId = await _localStorage.readValue("id");
+    Map<String, dynamic> data = {
+      'userId': userId,
+    };
+    final response =
+        await _api.getPostApiResponse(AppUrl.deleteMyAccount, data, false);
     return SuccessModel.fromJson(response);
   }
 }

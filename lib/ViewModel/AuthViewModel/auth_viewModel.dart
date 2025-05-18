@@ -109,4 +109,35 @@ class AuthViewmodel with ChangeNotifier {
       Utils.showCustomSnackBar(context, error.toString(), "Error");
     });
   }
+
+  bool _isdeleteLoading = false;
+
+  bool get isdeteLoading => _isdeleteLoading;
+
+  void setdeleteLoading(bool loading) {
+    _isdeleteLoading = loading;
+    notifyListeners();
+  }
+
+  // Delete Account
+  void deleteAccountApi(BuildContext context) {
+    setdeleteLoading(true);
+    authRepo.deleteAccount().then((value) {
+      setdeleteLoading(false);
+      Utils.showCustomSnackBar(context, value.message ?? "", "Success");
+      Navigator.pushReplacementNamed(context, RouteNames.loginView);
+    }).onError((error, stackTrace) {
+      setdeleteLoading(false);
+      Utils.showCustomSnackBar(context, error.toString(), "Error");
+    });
+  }
+
+  // Logout
+  void logout(BuildContext context) {
+    SessionController().logout().then((value) {
+      Navigator.pushReplacementNamed(context, RouteNames.loginView);
+    }).onError((error, stacktrace) {
+      log(error.toString());
+    });
+  }
 }

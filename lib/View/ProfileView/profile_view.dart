@@ -4,6 +4,8 @@ import 'package:zapdocs/Config/Color/app_color.dart';
 import 'package:zapdocs/Config/Components/RoundBtn/round_btn.dart';
 import 'package:zapdocs/Config/Extenshion/extenshion.dart';
 import 'package:zapdocs/Config/Routes/route_name.dart';
+import 'package:zapdocs/Config/Utils/Dialog/confirmation_dialog.dart';
+import 'package:zapdocs/Config/Widgets/widgets.dart';
 import 'package:zapdocs/ViewModel/AuthViewModel/auth_viewModel.dart';
 
 class ProfileView extends StatefulWidget {
@@ -16,8 +18,6 @@ class ProfileView extends StatefulWidget {
 class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthViewmodel>(context, listen: false);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -38,8 +38,6 @@ class _ProfileViewState extends State<ProfileView> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 0.03.ph(context),
-
-                // Profile Picture
                 Center(
                   child: Container(
                     width: context.mw * 0.25,
@@ -80,8 +78,7 @@ class _ProfileViewState extends State<ProfileView> {
 
                 0.06.ph(context),
 
-                _buildProfileOption(
-                  context,
+                ProfileOptionTile(
                   title: 'History',
                   icon: Icons.history,
                   onTap: () {
@@ -91,8 +88,7 @@ class _ProfileViewState extends State<ProfileView> {
 
                 _buildDivider(),
 
-                _buildProfileOption(
-                  context,
+                ProfileOptionTile(
                   title: 'Privacy Policy',
                   icon: Icons.privacy_tip_outlined,
                   onTap: () {},
@@ -100,8 +96,7 @@ class _ProfileViewState extends State<ProfileView> {
 
                 _buildDivider(),
 
-                _buildProfileOption(
-                  context,
+                ProfileOptionTile(
                   title: 'Terms & Conditions',
                   icon: Icons.description_outlined,
                   onTap: () {},
@@ -109,35 +104,47 @@ class _ProfileViewState extends State<ProfileView> {
 
                 _buildDivider(),
 
-                _buildProfileOption(
-                  context,
-                  title: 'Help & Support',
-                  icon: Icons.help_outline,
-                  onTap: () {},
-                ),
-
-                _buildDivider(),
-
-                _buildProfileOption(
-                  context,
-                  title: 'Delete Account',
-                  icon: Icons.delete_outline,
-                  iconColor: Colors.red,
-                  textColor: Colors.red,
-                  onTap: () {
-                    _showDeleteAccountConfirmation(context, authProvider);
-                  },
-                ),
+                Consumer<AuthViewmodel>(
+                    builder: (context, authViewModel, child) {
+                  return ProfileOptionTile(
+                    title: 'Delete Account',
+                    icon: Icons.delete_outline,
+                    iconColor: AppColor.alertRed,
+                    textColor: AppColor.alertRed,
+                    onTap: () async {
+                      await ConfirmationDialog.showConfirmationDialog(
+                        context,
+                        'Delete Account',
+                        'Are you sure you want to permanently delete your account? This action cannot be undone.',
+                        () {
+                          authViewModel.deleteAccountApi(context);
+                        },
+                        authViewModel.isdeteLoading,
+                      );
+                    },
+                  );
+                }),
 
                 0.04.ph(context),
 
                 // Logout Button
-                RoundBtn(
-                  title: "Sign Out",
-                  onPressed: () {
-                    _showLogoutConfirmation(context, authProvider);
-                  },
-                ),
+                Consumer<AuthViewmodel>(
+                    builder: (context, authViewModel, child) {
+                  return RoundBtn(
+                    title: "Sign Out",
+                    onPressed: () async {
+                      await ConfirmationDialog.showConfirmationDialog(
+                        context,
+                        'Sign Out',
+                        'Are you sure you want to sign out?',
+                        () {
+                          authViewModel.logout(context);
+                        },
+                        false,
+                      );
+                    },
+                  );
+                }),
 
                 0.03.ph(context),
 
@@ -159,120 +166,10 @@ class _ProfileViewState extends State<ProfileView> {
     );
   }
 
-  Widget _buildProfileOption(
-    BuildContext context, {
-    required String title,
-    required IconData icon,
-    required VoidCallback onTap,
-    Color? iconColor,
-    Color? textColor,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(8),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        child: Row(
-          children: [
-            Icon(
-              icon,
-              size: context.mh * 0.026,
-              color: iconColor ?? AppColor.primaryColor,
-            ),
-            SizedBox(width: context.mw * 0.04),
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: context.mh * 0.018,
-                fontWeight: FontWeight.w500,
-                color: textColor ?? AppColor.primaryText,
-              ),
-            ),
-            const Spacer(),
-            Icon(
-              Icons.arrow_forward_ios,
-              size: context.mh * 0.018,
-              color: AppColor.secondaryText,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _buildDivider() {
     return Divider(
       color: Colors.grey.withOpacity(0.2),
       height: 1,
-    );
-  }
-
-  void _showLogoutConfirmation(
-      BuildContext context, AuthViewmodel authProvider) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Sign Out'),
-          content: const Text('Are you sure you want to sign out?'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text(
-                'Cancel',
-                style: TextStyle(color: AppColor.secondaryText),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text(
-                'Sign Out',
-                style: TextStyle(color: AppColor.primaryColor),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _showDeleteAccountConfirmation(
-      BuildContext context, AuthViewmodel authProvider) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Delete Account'),
-          content: const Text(
-            'Are you sure you want to delete your account? This action cannot be undone and all your data will be permanently deleted.',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text(
-                'Cancel',
-                style: TextStyle(color: AppColor.secondaryText),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                // Implement account deletion functionality
-              },
-              child: const Text(
-                'Delete',
-                style: TextStyle(color: Colors.red),
-              ),
-            ),
-          ],
-        );
-      },
     );
   }
 }

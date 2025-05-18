@@ -1,8 +1,8 @@
 class AppUrl {
   // Base Url For IOS
-  static const String baseUrl = 'http://localhost:3000/';
+  // static const String baseUrl = 'http://localhost:3000/';
   // Local Base Url For Android Emulator
-  // static const String baseUrl = 'http://192.168.0.177:3000/';
+  static const String baseUrl = 'http://192.168.0.177:3000/';
   // Production Url
   // static const String baseUrl = 'https://zap-docs-backend.vercel.app/';
   // Login
@@ -24,6 +24,9 @@ class AppUrl {
 
   // Import Notes From Url
   static const String importNotesFromUrl = '${baseUrl}api/summerize-notes-with-url';
+
+  // Delete My Account
+  static const String deleteMyAccount = '${baseUrl}user/delete-user';
 
   // get notes
   static String getNotes(userId) =>

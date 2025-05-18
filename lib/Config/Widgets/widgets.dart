@@ -14,3 +14,5 @@ export './NotesWidgets/notes_keyPoints_view.dart';
 export './NotesWidgets/notes_overView_widget.dart';
 export './NotesWidgets/notes_question_answer_widget.dart';
 export './NotesWidgets/section_card_widget.dart';
+
+export './ProfileViewWidgets/profile_option_tile_widget.dart';

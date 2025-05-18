@@ -8,4 +8,6 @@ abstract class AuthRepo {
   Future<SuccessModel> forgetPassword(String email);
   Future<SuccessModel> verifyPin(String email, String pin);
   Future<SuccessModel> updatePassword(String email, String password, String pin);
+
+  Future<SuccessModel> deleteAccount();
 }

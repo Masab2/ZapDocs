@@ -43,8 +43,8 @@ class RoundBtn extends StatelessWidget {
                   const SizedBox(width: 8),
                   Text(
                     title,
-                    style: const TextStyle(
-                      fontSize: 16,
+                    style:  TextStyle(
+                      fontSize: context.mh * 0.016,
                       fontWeight: FontWeight.w600,
                       letterSpacing: 0.5,
                     ),
@@ -62,8 +62,9 @@ class RoundBtn extends StatelessWidget {
                   )
                 : Text(
                     title,
-                    style: const TextStyle(
-                      fontSize: 16,
+                    maxLines: 1,
+                    style: TextStyle(
+                      fontSize:  title == "Delete Account" ? context.mh * 0.013 :  context.mh * 0.016,
                       fontWeight: FontWeight.w600,
                       letterSpacing: 0.5,
                     ),

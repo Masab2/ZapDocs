@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:zapdocs/Config/Extenshion/extenshion.dart';
 import 'package:zapdocs/Config/Routes/route_name.dart';
+import 'package:zapdocs/Services/SessionController/session_controller.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -48,10 +49,15 @@ class _SplashViewState extends State<SplashView>
     _animationController.forward();
 
     // Navigate to home screen after delay
-    Timer(
-      const Duration(seconds: 3),
-      () => Navigator.pushNamed(context, RouteNames.loginView),
-    );
+    SessionController().getUserFromPrefrences().then((value) {
+      Timer(const Duration(seconds: 3), () {
+        if (SessionController().isLogin == true) {
+          Navigator.pushReplacementNamed(context, RouteNames.homeView);
+        } else {
+          Navigator.pushReplacementNamed(context, RouteNames.loginView);
+        }
+      });
+    });
   }
 
   @override
