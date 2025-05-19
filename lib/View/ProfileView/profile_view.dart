@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:zapdocs/Config/App/app_url.dart';
 import 'package:zapdocs/Config/Color/app_color.dart';
 import 'package:zapdocs/Config/Components/RoundBtn/round_btn.dart';
 import 'package:zapdocs/Config/Extenshion/extenshion.dart';
@@ -91,7 +93,9 @@ class _ProfileViewState extends State<ProfileView> {
                 ProfileOptionTile(
                   title: 'Privacy Policy',
                   icon: Icons.privacy_tip_outlined,
-                  onTap: () {},
+                  onTap: () {
+                    launchUrl(Uri.parse(AppUrl.privacyPolicy));
+                  },
                 ),
 
                 _buildDivider(),
@@ -99,7 +103,9 @@ class _ProfileViewState extends State<ProfileView> {
                 ProfileOptionTile(
                   title: 'Terms & Conditions',
                   icon: Icons.description_outlined,
-                  onTap: () {},
+                  onTap: () {
+                    launchUrl(Uri.parse(AppUrl.termsAndConditions));
+                  },
                 ),
 
                 _buildDivider(),

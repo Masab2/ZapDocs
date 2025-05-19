@@ -28,6 +28,12 @@ class AppUrl {
   // Delete My Account
   static const String deleteMyAccount = '${baseUrl}user/delete-user';
 
+  // Privacy Policy
+  static const String privacyPolicy = '${baseUrl}privacy-policy';
+
+  // terms and conditions
+  static const String termsAndConditions = '${baseUrl}terms-and-conditions';
+
   // get notes
   static String getNotes(userId) =>
       '${baseUrl}api/get-all-notes?userId=$userId';
