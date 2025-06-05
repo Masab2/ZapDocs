@@ -156,7 +156,7 @@ class _ProfileViewState extends State<ProfileView> {
 
                 // App Version
                 Text(
-                  'ZapDocs v1.0.0',
+                  'ZapDocs v1.0.0+2',
                   style: TextStyle(
                     fontSize: context.mh * 0.014,
                     color: AppColor.secondaryText,
