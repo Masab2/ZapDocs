@@ -106,16 +106,16 @@ class RecentSummaryItem extends StatelessWidget {
                 ),
               ),
               // More options button
-              IconButton(
-                icon: Icon(
-                  Icons.more_vert,
-                  color: AppColor.secondaryText,
-                  size: 20,
-                ),
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(),
-                onPressed: onMorePressed,
-              ),
+              // IconButton(
+              //   icon: Icon(
+              //     Icons.more_vert,
+              //     color: AppColor.secondaryText,
+              //     size: 20,
+              //   ),
+              //   padding: EdgeInsets.zero,
+              //   constraints: const BoxConstraints(),
+              //   onPressed: onMorePressed,
+              // ),
             ],
           ),
         ),
